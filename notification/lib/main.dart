@@ -52,6 +52,10 @@ class _LocalNotificationState extends State<LocalNotification> {
     await notificationaftersec();
   }
 
+  void _showNotificationRepeat() async {
+    await notificationRepeat();
+  }
+
   Future<void> notification() async {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
@@ -64,6 +68,20 @@ class _LocalNotificationState extends State<LocalNotification> {
         NotificationDetails(androidNotificationDetails, iosNotificationDetails);
     await flutterLocalNotificationsPlugin.show(
         0, 'hello there', 'hiiiiii', notificationDetails);
+  }
+
+  Future<void> notificationRepeat() async {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'repeating channel ID',
+      'repeating channel name',
+      'repeating description',
+    );
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    NotificationDetails notificationDetails =
+        NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'Water Alert',
+        'Drink Water', RepeatInterval.EveryMinute, notificationDetails);
   }
 
   Future<void> notificationaftersec() async {
@@ -134,6 +152,20 @@ class _LocalNotificationState extends State<LocalNotification> {
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   "Show Notification after 10 secs",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            FlatButton(
+              color: Colors.blue,
+              onPressed: _showNotificationRepeat,
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  "Show Notification Repeatedly",
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
